@@ -1,0 +1,12 @@
+{
+    "name": "ts-type-parser",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "bin": "cli.js",
+    "author": "Maciej (Maxie) Mieńko",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "typescript": "3.4.5"
+    }
+}
