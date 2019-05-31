@@ -385,7 +385,7 @@ module.exports = class Parser extends EventEmitter {
         let targetContent = '';
 
         if (fs.existsSync(_target)) {
-            fs.readFileSync(_target, 'utf8');
+            targetContent = fs.readFileSync(_target, 'utf8');
         }
 
         this._result.unshift('', '');
