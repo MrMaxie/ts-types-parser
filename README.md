@@ -1,6 +1,14 @@
 # TS Type Parser
 Parse TypeScript types definitions into... something else.
 
+## Using cases
+
+Parsing TS types allows you automatically for example:
+
+- Prepare SQL code to generate tables according to TS models
+- Writing dynamic API in other languages and preparing other languages to work with data send by or for such TS script
+- Writing validation for models in any language (for example in TS itself)
+
 ## Installing
 
 * Use NPM like that:
