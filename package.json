@@ -1,11 +1,11 @@
 {
-    "name": "ts-type-parser",
+    "name": "ts-types-parser",
     "version": "1.0.1",
     "description": "Parse TypeScript types definitions into... something else",
     "preferGlobal": true,
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/MrMaxie/ts-type-parser.git"
+        "url": "git+https://github.com/MrMaxie/ts-types-parser.git"
     },
     "keywords": [
         "typescript",
@@ -15,9 +15,9 @@
         "convert"
     ],
     "bugs": {
-        "url": "https://github.com/MrMaxie/ts-type-parser/issues"
+        "url": "https://github.com/MrMaxie/ts-types-parser/issues"
     },
-    "homepage": "https://github.com/MrMaxie/ts-type-parser#readme",
+    "homepage": "https://github.com/MrMaxie/ts-types-parser#readme",
     "main": "main.js",
     "bin": "./cli.js",
     "author": "Maciej (Maxie) Mieńko",

@@ -1,4 +1,4 @@
-# TS Type Parser
+# TS Types Parser
 Parse TypeScript types definitions into... something else.
 
 ## Using cases
@@ -14,7 +14,7 @@ Parsing TS types allows you automatically for example:
 * Use NPM like that:
 
 ```bash
-npm i -g ts-type-parser
+npm i -g ts-types-parser
 ```
 
 * ...or just clone repo.
@@ -26,7 +26,7 @@ npm i -g ts-type-parser
 * If you installed as global module:
 
 ```bash
-ts-type-parser rules.js
+ts-types-parser rules.js
 ```
 
 * If clonned repo:
@@ -51,7 +51,7 @@ module.exports = p => {
 * If you installed as local module:
 
 ```javascript
-const Parser = require('ts-type-parser');
+const Parser = require('ts-types-parser');
 const parser = new Parser;
 
 // Your rules here
@@ -159,7 +159,7 @@ Level up or down current indent.
 Write description block into result in current place. Example:
 
 ```javascript
-// Automatically generated code by "ts-type-parser"
+// Automatically generated code by "ts-types-parser"
 // Generated at Thu, 30 May 2019 22:07:35 GMT
 // Source files:
 // - types1.d.ts

@@ -131,7 +131,7 @@ module.exports = class Parser extends EventEmitter {
 
     writeDescription(prefix = '// ') {
         this._result.push(
-            `${prefix}Automatically generated code by "ts-type-parser"`,
+            `${prefix}Automatically generated code by "ts-types-parser"`,
             `${prefix}Generated at ${(new Date).toUTCString()}`,
             `${prefix}Source files:`,
             this._sources.map(x => `${prefix}- ${path.basename(x)}`).join('\r\n'),
