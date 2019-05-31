@@ -1,6 +1,6 @@
 {
     "name": "ts-types-parser",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Parse TypeScript types definitions into... something else",
     "preferGlobal": true,
     "repository": {
