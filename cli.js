@@ -51,7 +51,7 @@ if (isVerbose) {
 
 const js = require(file);
 
-if (js instanceof file === false) {
+if (js instanceof Function === false) {
     error(`Given file ( ${file} ) does not exports function`);
     return;
 }

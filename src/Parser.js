@@ -53,7 +53,7 @@ module.exports = class Parser extends EventEmitter {
      */
     setSource(path) {
         if (typeof path === 'string') {
-            path === [path];
+            path = [path];
         }
 
         path.filter(x => typeof x === 'string');
@@ -129,9 +129,9 @@ module.exports = class Parser extends EventEmitter {
         this._mainType = name;
     }
 
-    writeDescription(prefix = '//') {
+    writeDescription(prefix = '// ') {
         this._result.push(
-            `${prefix}Automatically generated code by "ts-types-parser"`,
+            `${prefix}Automatically generated code by "ts-type-parser"`,
             `${prefix}Generated at ${(new Date).toUTCString()}`,
             `${prefix}Source files:`,
             this._sources.map(x => `${prefix}- ${path.basename(x)}`).join('\r\n'),
@@ -382,7 +382,11 @@ module.exports = class Parser extends EventEmitter {
         this._readFile(fileNode);
         this.emit('done');
 
-        let targetContent = fs.readFileSync(_target, 'utf8');
+        let targetContent = '';
+
+        if (fs.existsSync(_target)) {
+            fs.readFileSync(_target, 'utf8');
+        }
 
         this._result.unshift('', '');
         this._result.push('', '');
