@@ -264,13 +264,6 @@ will close Array content inside `.forEach`.
 
 Parsing done, but you still can write something at end of result.
 
-## TODO
-
-- [ ] Ironically I should rewrite this script in TypeScript
-- [ ] Probably not all cases are parsed, for exmaple `union` types
-- [ ] Script needs tests
-- [ ] Script needs also more examples
-
 ## License
 
 This project is licensed under the Apache-2.0 License - see the [LICENSE.md](LICENSE.md) file for details
