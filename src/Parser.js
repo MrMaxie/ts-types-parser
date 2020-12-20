@@ -24,6 +24,23 @@ function fromEntries (iterable) {
         .reduce((obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }), {})
 }
 
+// actual type names
+// VoidKeyword -> undefined
+const typeNameFromKind = fromEntries([
+    [SK.TypeLiteral,      'object'],
+    [SK.TypeReference,    'ref'],
+    [SK.FalseKeyword,     'false'],
+    [SK.TrueKeyword,      'true'],
+    [SK.NullKeyword,      'null'],
+    [SK.AnyKeyword,       'any'],
+    [SK.BooleanKeyword,   'boolean'],
+    [SK.NumberKeyword,    'number'],
+    [SK.ObjectKeyword,    'object'],
+    [SK.StringKeyword,    'string'],
+    [SK.UndefinedKeyword, 'undefined'],
+    [SK.BigIntKeyword,    'bigint'],
+]);
+
 module.exports = class Parser extends EventEmitter {
     constructor() {
         super();
@@ -193,26 +210,19 @@ module.exports = class Parser extends EventEmitter {
     _readNode(n) {
         let name = n.name && n.name.escapedText ? n.name.escapedText : null;
 
-        // Get type
+        // Get type: property type or method return type
         const optional = Boolean(n.questionToken);
-        let type = fromEntries([
-            [SK.TypeLiteral,      'object'],
-            [SK.TypeReference,    'ref'],
-            [SK.FalseKeyword,     'false'],
-            [SK.TrueKeyword,      'true'],
-            [SK.NullKeyword,      'null'],
-            [SK.AnyKeyword,       'any'],
-            [SK.BooleanKeyword,   'boolean'],
-            [SK.NumberKeyword,    'number'],
-            [SK.ObjectKeyword,    'object'],
-            [SK.StringKeyword,    'string'],
-            [SK.UndefinedKeyword, 'undefined'],
-            [SK.BigIntKeyword,    'bigint'],
-        ])[n.type.kind] || undefined;
+        let type = typeNameFromKind[n.type.kind];
 
         if (type === 'ref') {
             type = n.type.typeName.escapedText;
         }
+
+        // get method parameters
+        const parameters = n.parameters && n.parameters.map(pn => ({
+            name: pn.name.escapedText,
+            type: typeNameFromKind[pn.type.kind],
+        }));
 
         let levelData = {};
         if (name) {
@@ -221,6 +231,7 @@ module.exports = class Parser extends EventEmitter {
                 path: this._getCurrentPath(),
                 name,
                 type,
+                parameters,
             };
             this.emit('level-up', levelData);
         }
