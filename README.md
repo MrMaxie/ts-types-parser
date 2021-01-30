@@ -1,269 +1,44 @@
 # TS Types Parser
-Parse TypeScript types definitions into... something else.
+
+Allows parse TypeScript types definitions into... something else.
+
+<p align="center" width="100%">
+    <img src="assets/logo-mini.png" alt="TS Types Parser" />
+</p>
+
+> **🔧 2.0 - Work in progress...**
+
+## Why?
+
+🚧 **Well documented and stable** - TypeScript at current version (4.1) isn't stable for AST traveling, this part of TS can change at any incoming version. This library provide you static and documented interface
+
+📐 **Universal** - TS Types Parser allows you just read types from any correct file of TypeScript, also travel through imports, aliasing etc. to get that what you need and do it this whatever you need
+
+🔍 **Focused** - AST traveling itself allows you to read tons of informations about current parsed code but this library expose mainly those types related
 
 ## Using cases
 
-Parsing TS types allows you automatically for example:
+Parsing TypeScript code to extract Types is thing which allows us - programmers - do awesome things in any needed case. Look at this functionality like on prolongation of DRY rule. At writting TypeScript code we thoroughly describe all used types/interfaces, but after transcompiling code into JavaScript we just loose those useful data. It's not that bad, but we should have possibility to use this informations at least at compiling time. Imagine such cases:
 
-- Prepare SQL code to generate tables according to TS models
-- Writing dynamic API in other languages and preparing other languages to work with data send by or for such TS script
-- Writing validation for models in any language (for example in TS itself)
+- Backend written in TypeScript will force you to write twice all of types from SQL databases, because you need to prepare SQL tables and the same types for TypeScript as well. Instead of that you can just only write TypeScript model and parsing script for SQL tables
+  - [See example code](/examples/sql-from-types)
+
+- Backend is written in other language, like PHP for example, and frontend is written in TypeScript. In such case you will need create all types twice - for backend and frontend at the same time. We can just write them once, for both of sides in TypeScript
+  - [See example code](/examples/php-from-types)
+
+- TypeScript application have to have runtime type checking for safer code, but writting tons of type checkings for same things isn't the best idea, even if we enclose them in functions like `isPhoneNumber()` it's need to be tested everywhere, why we just don't force our code to write self-testers?
+  - [See example Code](/examples/ts-from-types)
+
+## Version of TypeScript
+
+Current version work with TypeScript 4.1. Static version of TypeScript allows us to preserve current standard of AST, sometimes it changes, we need to avoid it. Code will need some changes/tests after every patch of TypeScript, but if you don't use newest syntaxes from higher version that current version of this library then code will be parsed fine
 
 ## Installing
 
-* Use NPM like that:
+* Simplest and recommended way is just use NPM like that:
 
-```bash
-npm i -g ts-types-parser
+```sh
+npm install --save-exact ts-types-parser
 ```
-
-* ...or just clone repo.
 
 ## Usage
-
-### CLI
-
-* If you installed as global module:
-
-```bash
-ts-types-parser rules.js
-```
-
-* If clonned repo:
-
-```bash
-node cli.js rules.js
-```
-
-* Example `rules-file.js` file for CLI usage
-
-```javascript
-
-module.exports = p => {
-    // Parser as p
-    // ...and rules here :)
-};
-
-```
-
-### Module
-
-* If you installed as local module:
-
-```javascript
-const Parser = require('ts-types-parser');
-const parser = new Parser;
-
-// Your rules here
-
-parser.run();
-```
-
-## Rules - Parser class
-
-### Methods
-
-#### `setSource(path: string | string[])`
-
-Allows to setup new single or multiple sources files. That files should be valid **TypeScript** files, all of them will be joined into single long string.
-
-*Remember: You have to add all needed files to sources with types because exports aren't resolved.*
-
----
-
-#### `setTarget(path: string)`
-
-Allows to setup file which will contain result. Whole file will be replaced if no delimiters are set.
-
----
-
-#### `setDelimiters(start: string, end: string)`
-
-Allows to setup delimiters for target file between which content will be replaced.
-
-*Remember: Those delimiters are used inside regular expression so you have to escape all special charaters.*
-
----
-
-#### `mainType(name: string)`
-
-Given name will be used as "entry point" at parsing. For example: if your tree of types begins from `interface Main` or `type Main` you should call `p.mainType('Main')`. There can exists only single "main" type, if you need more recurslivy parsing then using multiple instances of Parser class will be solution.
-
----
-
-#### `expandTypes(arr: string[])`
-
-Given here types will be resolved at occurring. For example:
-
-```javascript
-// some.d.ts
-type Point {
-    x: number;
-    y: number;
-};
-
-interface Main {
-    one: Point;
-    two: Point;
-};
-```
-
-Without any expanding will iterate trough:
-
-```
-one # Point
-two # Point
-```
-
-With `p.expandTypes(['Point'])` will iterate trough:
-
-```
-one   # Point
-one   # object
-one,x # number
-one,y # number
-two   # Point
-two   # object
-two,x # number
-two,y # number
-```
-
----
-
-#### `setPathProxy(cb: (path: string[]) => any)`
-
-Allows modify all paths before any call. For example:
-
-```javascript
-p.setPathProxy(x => x.filter(x => !/\d+$/.test(x)).join('#'));
-```
-
----
-
-#### `setIndent(indent: string)`
-
-Allows to set custom indent (default is 4 spaces). This indent will be used at leveling your result.
-
----
-
-#### `levelUp()`
-
-#### `levelDown()`
-
-Level up or down current indent.
-
----
-
-#### `writeDescription(prefix: string = '// ')`
-
-Write description block into result in current place. Example:
-
-```javascript
-// Automatically generated code by "ts-types-parser"
-// Generated at Thu, 30 May 2019 22:07:35 GMT
-// Source files:
-// - types1.d.ts
-// - types2.d.ts
-```
-
----
-
-#### `log({ optional: boolean, path: string, type: string })`
-
-Uses same object such will be send to parser and log given data in such way:
-
-```javascript
-// test.d.ts
-type Point {
-    x?: number;
-    y: number;
-};
-
-interface Main {
-    one?: Point;
-    two: Point;
-};
-
-// Result
-one                                 # Point      [optional]
-one                                 # object
-one,x                               # number     [optional]
-one,y                               # number
-two                                 # Point
-two                                 # object
-two,x                               # number     [optional]
-two,y                               # number
-```
-
----
-
-#### `used()`
-
-Set current path as used. See event `unused` for more informations.
-
----
-
-#### `write(txt: string)`
-
-Push new line into result, also marks current path as used.
-
----
-
-#### `run()`
-
-Runs parser ...and occasionally yells with errors.
-
-### Events
-
-`type Entry = { path: string[] | any, type: string, optional: boolean };`
-
-All paths in events are result of method which can be set using `p.setPathProxy(cb)`. Default paths are array of strings.
-
-#### `walk -> Entry`
-
-Just walk through all paths.
-
----
-
-#### `type::<SOME_TYPE> -> Entry`
-
-Will be emitted only when selected type occurs.
-
----
-
-#### `unused -> Entry`
-
-Will be emitted when none of callbacks didn't call `p.write()` or `p.used()`.
-
----
-
-#### `level-up -> Entry`
-#### `level-down -> Entry`
-
-Fired when level of path has been level upped, it's something else than `p.levelUp()` and `p.levelDown()`. Useful when you need to close whole subtree in some scope. For Example:
-
-```javascript
-p.on('level-up', ({ path }) => {
-    if (type === 'Array') {
-        p.write('Array(10).fill(0).forEach((_, i) => {');
-        p.levelUp();
-    }
-});
-
-p.on('level-down', ({ path }) => {
-    if (type === 'Array') {
-        p.levelDown();
-        p.write('});');
-    }
-});
-```
-
-will close Array content inside `.forEach`.
-
-#### `done -> void`
-
-Parsing done, but you still can write something at end of result.
-
-## License
-
-This project is licensed under the Apache-2.0 License - see the [LICENSE.md](LICENSE.md) file for details
