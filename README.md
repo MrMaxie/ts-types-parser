@@ -3,18 +3,20 @@
 Allows parse TypeScript types definitions into... something else.
 
 <p align="center" width="100%">
-    <img src="assets/logo-mini.png" alt="TS Types Parser" />
+    <img src="assets/logo-mini.png" alt="TS Types Parser" /><br/>
+    Parser version <strong>2.0</strong> | TypeScript version <strong>4.1.3</strong><br/>
+    <a href="#version-of-typescript">read why it's important information</a>
 </p>
-
-> **🔧 2.0 - Work in progress...**
 
 ## Why?
 
-🚧 **Well documented and stable** - TypeScript at current version (4.1) isn't stable for AST traveling, this part of TS can change at any incoming version. This library provide you static and documented interface
+🚧 **Documented and stable** - TypeScript at current version (4.1) isn't stable for AST traveling, this part of TS can change at any incoming version. This library provide you static and documented interface
 
 📐 **Universal** - TS Types Parser allows you just read types from any correct file of TypeScript, also travel through imports, aliasing etc. to get that what you need and do it this whatever you need
 
 🔍 **Focused** - AST traveling itself allows you to read tons of informations about current parsed code but this library expose mainly those types related
+
+🔮 **Metaprogramming** - Thanks to that kind of libraries, you can prepare code using written earlier code, faster and without human factor bugs
 
 ## Using cases
 
@@ -35,10 +37,11 @@ Current version work with TypeScript 4.1. Static version of TypeScript allows us
 
 ## Installing
 
-* Simplest and recommended way is just use NPM like that:
+Simplest and recommended way is just use NPM like that:
 
 ```sh
 npm install --save-exact ts-types-parser
 ```
 
 ## Usage
+

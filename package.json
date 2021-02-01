@@ -1,8 +1,17 @@
 {
     "name": "ts-types-parser",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "description": "Parse TypeScript types definitions into... something else",
-    "preferGlobal": true,
+    "scripts": {
+        "build": "tsc -p .",
+        "watch": "tsc -p . -w",
+        "test": "ava",
+        "test:watch": "ava --watch"
+    },
+    "ava": {
+        "extensions": [ "ts" ],
+        "require": [ "ts-node/register" ]
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/MrMaxie/ts-types-parser.git"
@@ -18,10 +27,14 @@
         "url": "https://github.com/MrMaxie/ts-types-parser/issues"
     },
     "homepage": "https://github.com/MrMaxie/ts-types-parser#readme",
-    "main": "main.js",
-    "bin": "./cli.js",
+    "main": "./dist/main.js",
     "author": "Maciej (Maxie) Mieńko",
     "license": "Apache-2.0",
+    "devDependencies": {
+        "@types/node": "14.14.22",
+        "ava": "3.15.0",
+        "ts-node": "9.1.1"
+    },
     "dependencies": {
         "typescript": "4.1.3"
     }
